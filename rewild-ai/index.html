@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rewild AI — Intelligent Food Surplus Redistribution</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="background-grid"></div>
+  <div class="background-glow"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-icon">◍</span>
+      <span>Rewild<em>AI</em></span>
+    </a>
+
+    <nav class="main-nav">
+      <a href="#network">Network</a>
+      <a href="#platform">Platform</a>
+      <a href="#trust">Verification</a>
+      <a href="#join">Join</a>
+    </nav>
+
+    <button class="ghost-button" id="openAuth">Sign in</button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Circular food intelligence</span>
+        <h1>
+          Move surplus food<br>
+          <span class="gradient-text">away from waste</span><br>
+          toward people and farms.
+        </h1>
+
+        <p>
+          Rewild AI connects verified food donors, charitable organizations, and agricultural
+          networks through real-time logistics, secure communication, and intelligent matching.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-button" href="#join">Create free account</a>
+          <a class="outline-button" href="#platform">Explore live network</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <strong>3</strong>
+            <span>Network roles</span>
+          </div>
+          <div>
+            <strong>GPS</strong>
+            <span>Location-aware matching</span>
+          </div>
+          <div>
+            <strong>KYC</strong>
+            <span>Identity verification</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orbit">
+          <div class="orbit-core">AI</div>
+          <div class="orbit-ring"></div>
+          <div class="orbit-node node-1">🥬</div>
+          <div class="orbit-node node-2">🏠</div>
+          <div class="orbit-node node-3">🚜</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="network">
+      <div class="section-head">
+        <span class="eyebrow">One connected ecosystem</span>
+        <h2>Built for every part of the food chain</h2>
+        <p>
+          Individuals, businesses, charities, and farms can register, verify their identity,
+          publish availability or needs, and coordinate redistribution.
+        </p>
+      </div>
+
+      <div class="role-grid">
+        <article class="glass-card">
+          <div class="card-icon">🏢</div>
+          <h3>Companies</h3>
+          <p>
+            Restaurants, supermarkets, caterers, hotels, and food producers can register,
+            list surplus inventory, and find verified partners.
+          </p>
+        </article>
+
+        <article class="glass-card">
+          <div class="card-icon">🏠</div>
+          <h3>Charities</h3>
+          <p>
+            Orphanages, shelters, and community kitchens can publish capacity, dietary needs,
+            storage capability, and pickup windows.
+          </p>
+        </article>
+
+        <article class="glass-card">
+          <div class="card-icon">🚜</div>
+          <h3>Farms</h3>
+          <p>
+            Agricultural networks can receive suitable surplus for composting, animal feed,
+            processing, or redistribution.
+          </p>
+        </article>
+
+        <article class="glass-card">
+          <div class="card-icon">👤</div>
+          <h3>Individuals</h3>
+          <p>
+            Verified people can report surplus food, volunteer for pickups, or search nearby
+            organizations and companies.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section platform-section" id="platform">
+      <div class="section-head">
+        <span class="eyebrow">Operational command center</span>
+        <h2>Live map, matching, and coordination</h2>
+        <p>
+          Select your role, allow location access, and view nearby network participants.
+          The matching engine prioritizes distance, food compatibility, urgency, and capacity.
+        </p>
+      </div>
+
+      <div class="platform-shell">
+        <div class="map-panel">
+          <div class="panel-header">
+            <h3>Live network map</h3>
+            <button class="small-button" id="locateButton">Use my GPS</button>
+          </div>
+
+          <div id="map"></div>
+
+          <div class="map-status" id="mapStatus">
+            GPS not enabled. Location is only used after you approve browser permission.
+          </div>
+        </div>
+
+        <aside class="side-panel">
+          <div class="panel-header">
+            <h3>AI matching</h3>
+          </div>
+
+          <label class="field">
+            <span>I am a</span>
+            <select id="userRole">
+              <option value="donor">Food donor</option>
+              <option value="charity">Charity / orphanage</option>
+              <option value="farm">Farm</option>
+              <option value="company">Company</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>What do you need?</span>
+            <input id="matchQuery" type="text" placeholder="Fresh vegetables, bakery surplus, cooked meals...">
+          </label>
+
+          <button class="primary-button full-width" id="matchButton">
+            Find best match
+          </button>
+
+          <div class="match-output" id="matchOutput">
+            <p class="muted">No match generated yet.</p>
+          </div>
+
+          <div class="panel-header chat-header">
+            <h3>Secure chat</h3>
+          </div>
+
+          <div class="chat-window" id="chatWindow">
+            <div class="chat-message assistant">
+              Welcome to Rewild AI. Describe your surplus or requirement to begin matching.
+            </div>
+          </div>
+
+          <form class="chat-form" id="chatForm">
+            <input id="chatInput" type="text" placeholder="Message Rewild AI..." autocomplete="off">
+            <button type="submit">Send</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="trust">
+      <div class="section-head">
+        <span class="eyebrow">Safety by design</span>
+        <h2>Verified accounts. Protected identity data.</h2>
+        <p>
+          Rewild AI is designed to prevent anonymous misuse. Every participant completes
+          identity verification before receiving full platform access.
+        </p>
+      </div>
+
+      <div class="trust-grid">
+        <article class="glass-card">
+          <h3>Identity verification</h3>
+          <p>
+            Users submit a government ID and selfie through a compliant KYC provider.
+            Documents are processed securely and are not stored unnecessarily in the app database.
+          </p>
+        </article>
+
+        <article class="glass-card">
+          <h3>Business verification</h3>
+          <p>
+            Companies provide registration details and authorized-contact information.
+            Verification status is displayed before they can publish listings or contact partners.
+          </p>
+        </article>
+
+        <article class="glass-card">
+          <h3>Location privacy</h3>
+          <p>
+            GPS is requested only with user consent. The platform should store approximate
+            locations for matching, not continuously track users.
+          </p>
+        </article>
+
+        <article class="glass-card">
+          <h3>Secure communication</h3>
+          <p>
+            Chats occur inside the platform. Payment requests, illegal goods, threats, and
+            off-platform contact attempts should be reportable and reviewable.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section join-section" id="join">
+      <div class="join-card">
+        <div>
+          <span class="eyebrow">Free to join</span>
+          <h2>Create your Rewild AI account</h2>
+          <p>
+            Register as an individual, company, charity, or farm. Full matching, messaging,
+            and listing tools unlock after verification.
+          </p>
+        </div>
+
+        <form class="signup-form" id="signupForm">
+          <label class="field">
+            <span>Full name</span>
+            <input id="fullName" type="text" required>
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input id="email" type="email" required>
+          </label>
+
+          <label class="field">
+            <span>Password</span>
+            <input id="password" type="password" minlength="12" required>
+          </label>
+
+          <label class="field">
+            <span>Account type</span>
+            <select id="accountType">
+              <option value="individual">Individual</option>
+              <option value="company">Company</option>
+              <option value="charity">Charity / orphanage</option>
+              <option value="farm">Farm</option>
+            </select>
+          </label>
+
+          <button class="primary-button full-width" type="submit">
+            Create account
+          </button>
+
+          <p class="form-note">
+            This front-end saves a local draft only. A production version must send data to a
+            secure backend and use a compliant KYC provider for identity checks.
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="auth-modal" id="authModal">
+    <div class="auth-card">
+      <button class="close-button" id="closeAuth">×</button>
+      <h2>Welcome back</h2>
+      <p class="muted">Sign in to access your verified Rewild AI network.</p>
+
+      <label class="field">
+        <span>Email</span>
+        <input type="email" placeholder="you@example.com">
+      </label>
+
+      <label class="field">
+        <span>Password</span>
+        <input type="password" placeholder="Enter your password">
+      </label>
+
+      <button class="primary-button full-width">Sign in</button>
+
+      <p class="form-note">
+        Production sign-in requires server-side authentication, encrypted sessions, and MFA.
+      </p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>Rewild AI</strong>
+        <p>Reducing food waste through verified circular redistribution.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#network">Network</a>
+        <a href="#platform">Platform</a>
+        <a href="#trust">Trust</a>
+        <a href="#join">Join</a>
+      </div>
+    </div>
+
+    <p class="copyright">
+      © 2026 Rewild AI. Map data © OpenStreetMap contributors.
+    </p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
